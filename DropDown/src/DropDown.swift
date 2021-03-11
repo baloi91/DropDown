@@ -1030,7 +1030,12 @@ extension DropDown {
 
 	/// Returns the height needed to display all cells.
 	fileprivate var tableHeight: CGFloat {
-		return tableView.rowHeight * CGFloat(dataSource.count)
+        if tableView.numberOfRows(inSection: 0) < 5 {
+            return tableView.rowHeight * CGFloat(dataSource.count)
+        }
+        else {
+            return 200
+        }
 	}
 
     //MARK: Objective-C methods for converting the Swift type Index
