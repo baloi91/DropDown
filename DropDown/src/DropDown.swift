@@ -145,6 +145,14 @@ public final class DropDown: UIView {
         didSet { setNeedsUpdateConstraints() }
     }
     
+    /**
+    The offset from the top of the window when the drop down is shown above the anchor view.
+    DropDown applies this offset only if keyboard is hidden.
+    */
+    public var offsetFromWindowTop = CGFloat(0) {
+        didSet { setNeedsUpdateConstraints() }
+    }
+    
 	/**
 	The width of the drop down.
 
@@ -749,7 +757,7 @@ extension DropDown {
 		let x = anchorViewX + topOffset.x
 		var y = (anchorViewMaxY + topOffset.y) - tableHeight
 
-		let windowY = window.bounds.minY + DPDConstant.UI.HeightPadding
+		let windowY = window.bounds.minY + DPDConstant.UI.HeightPadding + offsetFromWindowTop
 
 		if y < windowY {
 			offscreenHeight = abs(y - windowY)
@@ -1030,12 +1038,7 @@ extension DropDown {
 
 	/// Returns the height needed to display all cells.
 	fileprivate var tableHeight: CGFloat {
-        if tableView.numberOfRows(inSection: 0) < 5 {
-            return tableView.rowHeight * CGFloat(dataSource.count)
-        }
-        else {
-            return 200
-        }
+        return tableView.rowHeight * CGFloat(dataSource.count)
 	}
 
     //MARK: Objective-C methods for converting the Swift type Index
